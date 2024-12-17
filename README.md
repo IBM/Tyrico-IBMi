@@ -45,7 +45,10 @@ java -jar target/kafka-producer-1.0-SNAPSHOT.jar
 ## Start the consumer locally
 1. `python kafka_consumer.py`
 
+## Troubleshooting:
+If the kafka doesn't automatically create the topics `my_topic` and `recv_topic`, you may need to create it manually.
 
+Ex: `kafka-topics.sh --create --topic my_topic --bootstrap-server localhost:9092 --partitions 1 --replication-factor 2`
 
 
 
