@@ -1,34 +1,51 @@
-# tyricov2
+# Tyrico: How to run 
+
+## Setup consumer locally
+
+1. Clone to your local system `https://github.com/jonnyz32/tyricov2.git`
+2. Install python 3.9
+3. Setup your python virtual environment
+```
+cd tyricov2
+python3.9 -m venv venv
+source venv/bin/activate     
+pip install -r requirements.txt
+```
+4. Select python interpreter in vscode. Get python path. 
+```
+which python                                                                  
+/Users/zakjonat/tyricov2/venv/bin/python
+```
+Then run vscode command
+`python: select interpreter`, and  paste in the path.
 
 
+## Setup kafka on IBM i
 1. Deploy kafka on IBM i: https://ibmi-oss-docs.readthedocs.io/en/latest/kafka/README.html#deploying-kafka-on-ibm-i
 
-2. 
-Run python3.9 -m venv venv
+## Setup producer on IBM i
 
-source venv/bin/activate     
+1. Make tyrico dir on ibm i
+```mkdir ~/tyrico```
 
-pip install -r requirements.txt
-
-Run which python, and then use that path as the vscode python interpreter. Run vscode command
-`python: select interpreter`, and  paste in the path.
-(venv) ➜  tyricov2 git:(main) ✗ which python                                                                  
-/Users/zakjonat/tyricov2/venv/bin/python
-
-Make tyrico dir on ibm i
-```mkdir tyrico```
-
-
-Send java files to IBM i
+2. Send java files to IBM i
 ```scp -r iris_training_data.csv pom.xml src jonathan@p8adt05.rch.stglabs.ibm.com:~/tyrico```
 
-Compile
-```mvn package```
+3. Compile
+```
+cd ~/tyrico
+mvn package
+```
 
-Start the consumer on mac:
-```python kafka_consumer.py```
+4. Start the producer on ibm i:
+```
+java -jar target/kafka-producer-1.0-SNAPSHOT.jar
+```
 
-Start the producer on ibm i:
+## Start the consumer locally
+1. `python kafka_consumer.py`
+
+
 
 
 
