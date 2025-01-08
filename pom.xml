@@ -27,6 +27,12 @@
             <artifactId>opencsv</artifactId>
             <version>5.7.1</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/net.sf.jt400/jt400 -->
+        <dependency>
+            <groupId>net.sf.jt400</groupId>
+            <artifactId>jt400</artifactId>
+            <version>20.0.8</version>
+        </dependency>
 
     </dependencies>
 
@@ -52,7 +58,7 @@
                 <configuration>
                     <archive>
                         <manifestEntries>
-                            <Main-Class>com.example.KafkaProducerExample</Main-Class>  <!-- Replace with your main class -->
+                            <Main-Class>com.example.KeyedManager</Main-Class>
                         </manifestEntries>
                     </archive>
                 </configuration>
