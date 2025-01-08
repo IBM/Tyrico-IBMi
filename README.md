@@ -45,6 +45,10 @@ java -jar target/kafka-producer-1.0-SNAPSHOT.jar
 ## Start the consumer locally
 1. `python kafka_consumer.py`
 
+## If using ile bridge
+1. Compile using `make all`
+2. Start the application with `system "call tyrico/ILEBRIDGEK"` (uses keyed dtaq) or `system "call tyrico/ILEBRIDGE"` (uses fifo dtaq)
+
 ## Troubleshooting:
 If the kafka doesn't automatically create the topics `my_topic` and `recv_topic`, you may need to create it manually.
 
