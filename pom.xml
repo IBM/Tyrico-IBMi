@@ -33,6 +33,11 @@
             <artifactId>jt400</artifactId>
             <version>20.0.8</version>
         </dependency>
+        <dependency>
+            <groupId>io.github.cdimascio</groupId>
+            <artifactId>dotenv-java</artifactId>
+            <version>2.3.2</version>
+        </dependency>
 
     </dependencies>
 
