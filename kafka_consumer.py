@@ -18,6 +18,7 @@ def delivery_report(err, msg):
         
         
 def ask_model(batch):
+    # return batch
     keys = [x[0] for x in batch]
     values = [json.loads(x[1]) for x in batch]
     outputs = session.run(None, {"float_input": np.array(values).astype(np.float32)})[0]
@@ -41,6 +42,7 @@ def sendBatch(batch):
     return ret
 
 def sendToKafka(records):
+    print("Sending to Kafka")
     for record in records:
         producer.produce(topic_2, key=record[0], value=str(record[1]), callback=delivery_report)
     producer.poll(0)
@@ -66,7 +68,7 @@ consumer.subscribe([topic])
 
 # Start consuming messages
 try:
-    start = time.process_time()
+    start = time.time()
     batch = []
     while True:
         # Poll for a message (this will block until a message is received or timeout occurs)
@@ -74,11 +76,11 @@ try:
 
         if msg is None:
             # Check if there is a batch to be sent
-            if time.process_time() - start > 5 and len(batch) > 0:
+            if time.time() - start > 5 and len(batch) > 0:
                 res = sendBatch(batch)
                 sendToKafka(res)
                 batch = []
-                start = time.process_time()
+                start = time.time()
                 
             continue
         if msg.error():
@@ -91,16 +93,14 @@ try:
             # Process the message
             decoded_val = msg.value().decode('utf-8')
             decoded_key = msg.key().decode('utf-8')
-            # print("Got message", decoded_key)
-            # print("Got message", decoded_val)
+            print("Adding to batch", decoded_key, decoded_val)
+            batch.append([decoded_key, decoded_val])
 
-            if (len(batch) < 5 and time.process_time() - start < 5):
-                batch.append([decoded_key, decoded_val])
-            else:
+            if(len(batch) >= 5 or time.time() - start > 5):
                 res = sendBatch(batch)
                 sendToKafka(res)
                 batch = []
-                start = time.process_time()
+                start = time.time()
 
 except KeyboardInterrupt:
     print("Consumer interrupted")
