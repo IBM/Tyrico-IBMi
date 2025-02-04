@@ -76,7 +76,7 @@ try:
 
         if msg is None:
             # Check if there is a batch to be sent
-            if time.time() - start > 5 and len(batch) > 0:
+            if time.time() - start > 0.5 and len(batch) > 0:
                 res = sendBatch(batch)
                 sendToKafka(res)
                 batch = []
@@ -96,7 +96,7 @@ try:
             print("Adding to batch", decoded_key, decoded_val)
             batch.append([decoded_key, decoded_val])
 
-            if(len(batch) >= 5 or time.time() - start > 5):
+            if(len(batch) >= 5 or time.time() - start > 0.5):
                 res = sendBatch(batch)
                 sendToKafka(res)
                 batch = []
