@@ -25,7 +25,7 @@ def ask_model(batch):
     
     ret = []
     for i in range(len(outputs)):
-        ret.append(((keys[i], outputs[i])))
+        ret.append((keys[i], outputs[i]))
     return ret
         
 def process_message(msg):
