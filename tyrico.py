@@ -44,9 +44,10 @@ class Tyrico:
         raise NotImplementedError("ask_model must be implemented using set_ask_model")
 
     def set_ask_model(self, func):
-        """Allows users to set the model query function dynamically. The model function 
-        must take in a 2d array where each element is of the form [key, value]. The function
-        must return a 2d array where each element is of the form (key, value). Ex.
+        """Allows users to set the model query function dynamically. The ask_model function 
+        must take in a 2d array where each element is of the form [key, value]. The function 
+        must return the result of the inferencing as a 2d array where each element is of the 
+        form (key, value) Ex.
         
         def ask_model(batch):
             keys = [x[0] for x in batch]
