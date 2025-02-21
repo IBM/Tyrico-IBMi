@@ -5,7 +5,7 @@ from confluent_kafka import Consumer, KafkaException, KafkaError, Producer
 # Configure logging
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 
-class Kafka:
+class Tyrico:
     """A class to handle consuming and producing Kafka messages"""
 
     def __init__(self, read_topic, write_topic, server_address, server_port, group_id):
