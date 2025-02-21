@@ -12,7 +12,7 @@
 3. Run the jar file using the command
 ```java -jar tyrico-1.0-SNAPSHOT.jar```
 
-Now Tyrico will read messages from the input data queue, and send them to the kafka `sendTopic` specified. The data will then be read off of kafka by the tyrico_kafka_consumer, processed by your custom model, written back to the kafka `receiveTopic`, and finally written to your keyed output data queue.
+Now Tyrico will read messages from the input data queue, and send them to the kafka `sendTopic` specified. The data will then be read off of kafka by `tyrico.py`, processed by your custom model, written back to the kafka `receiveTopic`, and finally written to your keyed output data queue.
 
 ### Integrating with your IBM i application
 In order to integrate Tyrico with your IBM i application, you need to write the data that you want inferenced to
