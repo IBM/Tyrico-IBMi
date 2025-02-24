@@ -1,4 +1,4 @@
-package com.example;
+package com.tyrico;
 
 public class Manager {
     public static void main(String[] args) {

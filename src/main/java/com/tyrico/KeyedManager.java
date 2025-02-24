@@ -1,4 +1,4 @@
-package com.example;
+package com.tyrico;
 
 public class KeyedManager {
     public static void main(String[] args) {
@@ -10,7 +10,5 @@ public class KeyedManager {
 
         t1.start();
         t2.start();
-
     }
-    
 }

@@ -1,4 +1,4 @@
-package com.example;
+package com.tyrico;
 
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
