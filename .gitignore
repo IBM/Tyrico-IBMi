@@ -2,3 +2,7 @@ venv
 .evfevent
 .env
 target
+.idea/
+.vscode
+__pycache__
+sampleCurl.sh
