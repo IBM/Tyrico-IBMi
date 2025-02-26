@@ -1,0 +1,1 @@
+![Tyrico Architecture](./images/tyrico-architecture.png)

@@ -1,2 +1,4 @@
-- [Read Me](README)
-- [Example Second Page](second-page)
+- [Why Tyrico](why-tyrico)
+- [Architecture](architecture)
+- [How To Use](how-to-use)
+- [Examples](examples)
