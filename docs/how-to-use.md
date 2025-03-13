@@ -17,10 +17,10 @@ your write data queue, and you will read the results from your keyed read data q
 your `.env` as `inQueueName` and `outQueueNameKeyed`. At the moment we only support cpp applications, but we will be supporting 
 other application types very soon including RPGLE. 
 
-1. Download the `ileBridgeLib.cpp`, and `ileBridgeLib.h` from the latest release.
-2. Include ileBridgeLib in your cpp application.
+1. Download the `tyrico.cpp`, and `tyrico.h` from the latest release.
+2. Include tyrico in your cpp application.
 ```
-#include "ileBridgeLib.h"
+#include "tyrico.h"
 ```
 3. Write the data that you want to be processed to the `inQueueName` data queue. Note the unique key for this entry
 is returned.

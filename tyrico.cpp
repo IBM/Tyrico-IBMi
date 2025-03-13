@@ -6,9 +6,7 @@
 #include <string>
 #include <stdlib.h>
 #include <stdio.h>
-#include "ileBridgeLib.h"
-
-
+#include "tyrico.h"
 
 #define COUNTER_LENGTH 7 // Number of bytes in counter
 #define KEY_SIZE 17 // Length of the key
