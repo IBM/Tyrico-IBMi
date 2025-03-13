@@ -1,5 +1,7 @@
 #include <string>
 #include "ileBridgeLib.h"
+#include <locale.h>
+
 
 #define DTAQ_IN  "D16       "         // Data queue name
 #define DTAQ_OUT "D18KEYED  "       // Data queue name
@@ -41,20 +43,27 @@ int data_length = sizeof(flowers) / sizeof(flowers[0]);
 
 
 int main() {
+    int buffer_size = 100;
+    setlocale(LC_ALL, "C"); // Ensures system default (EBCDIC on IBM i)
+
     const int num_messages = 100000;
     string keys[num_messages];
+    char key[buffer_size];
 
-    for (int i = 0; i <= num_messages; i++) {
-        string message = flowers[i % data_length];
-        string key = writeDataQueue(DTAQ_IN, DTAQ_LIB, message);
+    for (int i = 0; i < num_messages; i++) {
+        char* message = (char*)(flowers[i % data_length]).c_str();
+        printf("sending message %d\n", i);
+
+        writeDataQueue(DTAQ_IN, DTAQ_LIB, message, key);
         // Add key to the array for later use
-        keys[i] = key;
+        keys[i] = string(key);
     }
 
     for (int i = 0; i < num_messages; i++){
         string key = keys[i];
-        string res = readDataQueue(DTAQ_OUT, DTAQ_LIB, key);
-        printf("Received message key %s, value %s\n", key.c_str(), res.c_str());
+        char res[buffer_size];
+        readDataQueue(DTAQ_OUT, DTAQ_LIB, (char*)key.c_str(), res);
+        printf("Received message key %s, value %s\n", key.c_str(), res);
     }
     
     return 0;

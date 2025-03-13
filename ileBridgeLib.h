@@ -2,6 +2,6 @@
 
 using namespace std;
 
-string readDataQueue(char* dtaq_name, char* library_name, string key);
+extern "C" void readDataQueue(char* dtaq_name, char* dtaq_lib, char* key, char* output);
 
-string writeDataQueue(char* dtaq_name, char* dtaq_lib, string message);
+extern "C" void writeDataQueue(char* dtaq_name, char* dtaq_lib, char* value, char* returned_key);

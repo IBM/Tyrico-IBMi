@@ -1,5 +1,7 @@
 import time
 import logging
+import traceback
+
 from confluent_kafka import Consumer, KafkaException, KafkaError, Producer
 
 # Configure logging
@@ -74,6 +76,8 @@ class Tyrico:
     def _send_to_kafka(self, records):
         """Sends processed records to the Kafka write topic."""
         logging.info("Sending batch to Kafka...")
+        if records is None:
+            return
         for key, value in records:
             self.producer.produce(self.write_topic, key=key, value=str(value), callback=self._delivery_report)
         self.producer.poll(0)
@@ -129,8 +133,8 @@ class Tyrico:
         except KeyboardInterrupt:
             logging.info("Consumer interrupted by user.")
 
-        except Exception as e:
-            logging.error("Error in Kafka consumer: %s", e)
+        except Exception:
+            logging.error("Error in Kafka consumer: %s", traceback.print_exc())
 
         finally:
             logging.info("Closing Kafka consumer...")
