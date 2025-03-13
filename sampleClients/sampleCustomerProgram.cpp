@@ -1,7 +1,5 @@
 #include <string>
-#include "tyrico.h"
-#include <locale.h>
-
+#include "../libs/tyrico.h"
 
 #define DTAQ_IN  "D16       "         // Data queue name
 #define DTAQ_OUT "D18KEYED  "       // Data queue name
