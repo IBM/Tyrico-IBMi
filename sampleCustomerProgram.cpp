@@ -41,29 +41,34 @@ string flowers[] = {
 
 int data_length = sizeof(flowers) / sizeof(flowers[0]);
 
-
 int main() {
-    int buffer_size = 100;
-    setlocale(LC_ALL, "C"); // Ensures system default (EBCDIC on IBM i)
-
     const int num_messages = 100000;
     string keys[num_messages];
-    char key[buffer_size];
-
+    Key key;
     for (int i = 0; i < num_messages; i++) {
         char* message = (char*)(flowers[i % data_length]).c_str();
         printf("sending message %d\n", i);
 
-        writeDataQueue(DTAQ_IN, DTAQ_LIB, message, key);
+        int res = writeDataQueue(DTAQ_IN, DTAQ_LIB, message, &key);
         // Add key to the array for later use
-        keys[i] = string(key);
+        if (res == 0){
+            keys[i] = string(key.data);
+        } else {
+            keys[i] = string("");
+        }
     }
 
     for (int i = 0; i < num_messages; i++){
-        string key = keys[i];
-        char res[buffer_size];
-        readDataQueue(DTAQ_OUT, DTAQ_LIB, (char*)key.c_str(), res);
-        printf("Received message key %s, value %s\n", key.c_str(), res);
+        string returned_key = keys[i];
+        if (returned_key != ""){
+            Varchar1000 output;
+            int result = readDataQueue(DTAQ_OUT, DTAQ_LIB, (char*)returned_key.c_str(), &output);
+            if (result == 0){
+                printf("Received message key %s, value %s\n", returned_key.c_str(), output.data);
+            } else {
+                printf("Got error %d\n", result);
+            }
+        } 
     }
     
     return 0;
