@@ -1,5 +1,6 @@
 # Tyrico: How to run 
 
+For full documentation see: https://ibm.github.io/Tyrico-IBMi
 
 ## Setup kafka on IBM i
 1. Deploy kafka on IBM i: https://ibmi-oss-docs.readthedocs.io/en/latest/kafka/README.html#deploying-kafka-on-ibm-i

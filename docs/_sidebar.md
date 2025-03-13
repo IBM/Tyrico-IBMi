@@ -1,4 +1,5 @@
 - [Why Tyrico](why-tyrico)
 - [Architecture](architecture)
 - [How To Use](how-to-use)
-- [Examples](examples)
+- [RPG example](rpg)
+- [CPP example](cpp)
