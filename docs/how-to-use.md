@@ -14,39 +14,31 @@ Now Tyrico will read messages from the input data queue, and send them to the ka
 ### Integrating with your IBM i application
 In order to integrate Tyrico with your IBM i application, you need to write the data that you want inferenced to
 your write data queue, and you will read the results from your keyed read data queue. You must use the same names as specified in
-your `.env` as `inQueueName` and `outQueueNameKeyed`. At the moment we only support cpp applications, but we will be supporting 
-other application types very soon including RPGLE. 
+your `.env` as `inQueueName` and `outQueueNameKeyed`. 
 
-1. Download the `tyrico.cpp`, and `tyrico.h` from the latest release.
-2. Include tyrico in your cpp application.
-```
-#include "tyrico.h"
-```
-3. Write the data that you want to be processed to the `inQueueName` data queue. Note the unique key for this entry
-is returned.
-```
-string key = writeDataQueue(DTAQ_IN, DTAQ_LIB, message);
-```
-4. Retrieve the result of the inferencing by reading from the `outQueueNameKeyed` data queue.
-```
-string res = readDataQueue(DTAQ_OUT, DTAQ_LIB, key);
-```
+For more information on how to integrate Tyrico with a c or cpp application check out the [CPP example](./cpp.md)\
+For more information on how to integrate Tyrico with an RPG application check out the [RPG example](./rpg.md)
 
 ## Setup you custom AI model
 
 1. Download the latest tyrico.py
 2. Import the Tyrico class
-```
+
+```python
 from tyrico import Tyrico
 ```
+
 3. Initialize the class
-```
+
+```python
 tyrico = Tyrico('<send-topic>','<receive-topic>', '<kafka-server-address>', '<kafka-server-port>', '<kafka-consumer-group>')
 ```
+
 4. Set you custom model implementation. IMPORTANT: The ask_model function must take in a 2d array where 
 each element is of the form [key, value]. The function must return the result of the inferencing as a 2d array
 where each element is of the form (key, value). Ex.
-```
+
+```python
 modelPath = "./logreg_iris.onnx"
 session = ort.InferenceSession(modelPath, providers=ort.get_available_providers())
 
@@ -62,7 +54,9 @@ def ask_model(batch):
 
 tyrico.set_ask_model(ask_model)
 ```
+
 5. Run the tyrico_kafka_consumer
-```
+
+```python
 tyrico.run()
 ```
