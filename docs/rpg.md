@@ -1,25 +1,19 @@
 ## How to integrate Tyrico with an rpg application
 
-1. Create the tyrico module and service program by running `make all` from the `libs` directory.
+1. Create the tyrico module, service program, and binding directory by running `make all` from the `libs` directory.
 
 ```bash
 cd libs
 make all
 ```
 
-2. Add the tyrico service program into your binding directory.
-
-```bash
-ADDBNDDIRE BNDDIR(<library>/<bnddir name>) OBJ((TYRICO/TYRICO *SRVPGM))
-```
-
-3. Include your binding directory.
+2. Include the binding directory.
 
 ```bash
 ctl-opt BNDDIR('TYRICO/BNDDIR');
 ```
 
-4. Include the `readDataQueue` and `writeDataQueue` external procedures.
+3. Include the `readDataQueue` and `writeDataQueue` external procedures.
 
 ```bash
 dcl-pr writeDataQueue extproc('writeDataQueue');
@@ -37,7 +31,7 @@ dcl-pr readDataQueue int(10) extproc('readDataQueue');
 end-pr;
 ```
 
-5. Use the `readDataQueue` and `writeDataQueue` methods to start inferencing your data. Note that `returned_key` 
+4. Use the `readDataQueue` and `writeDataQueue` methods to start inferencing your data. Note that `returned_key` 
 and `output` were defined in such a way to match the external procedure definitions. `returned_key` will store 
 the key that your returned output data will be stored with in your keyed output data queue. `output` will
 store your return value.
@@ -51,7 +45,7 @@ writeDataQueue(dtaq_in : dtaq_lib : flower : returned_key);
 readDataQueue(dtaq_out : dtaq_lib : keys(i): output);
 ```
 
-6. Here's a sample application.
+5. Here's a sample application.
 
 ```bash
 **free
