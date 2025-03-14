@@ -65,9 +65,9 @@ dcl-pr readDataQueue int(10) extproc('readDataQueue');
         output varchar(1000);
 end-pr;
 
-dcl-s dtaq_in  char(10) inz('D16       ');
-dcl-s dtaq_out char(10) inz('D18KEYED  ');
-dcl-s dtaq_lib char(10) inz('JONATHAN  ');
+dcl-s dtaq_in  char(10) inz('DIN');
+dcl-s dtaq_out char(10) inz('DOUT');
+dcl-s dtaq_lib char(10) inz('JONATHAN');
 dcl-s data_length int(10) inz(28);
 dcl-s num_messages int(10) inz(1000);
 dcl-s keys char(18) dim(1000);

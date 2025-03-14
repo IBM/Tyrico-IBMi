@@ -9,9 +9,9 @@
 2. Define your data queue library, input queue name, and output queue name
 
 ```clike
-#define DTAQ_IN  "INPUT     "    // Data queue name
-#define DTAQ_OUT "OUTPUT    "    // Data queue name
-#define DTAQ_LIB "MYLIB     "    // Data queue library
+#define DTAQ_IN  "INPUT"
+#define DTAQ_OUT "OUTPUT"
+#define DTAQ_LIB "MYLIB"
 ```
 
 3. Use the imported read and write data queue functions. `message` is the message to be sent to your 
@@ -37,9 +37,9 @@ int result = readDataQueue(DTAQ_OUT, DTAQ_LIB, key.data, &output);
 #include <string>
 #include "../libs/tyrico.h"
 
-#define DTAQ_IN  "D16       "    // Data queue name
-#define DTAQ_OUT "D18KEYED  "    // Data queue name
-#define DTAQ_LIB "JONATHAN  "    // Data queue library
+#define DTAQ_IN  "DIN"
+#define DTAQ_OUT "DOUTKEYED"
+#define DTAQ_LIB "JONATHAN"
 
 using namespace std;
 
