@@ -1,36 +1,44 @@
 ## How to integrate Tyrico with a cpp or c application
 
-1. Include the tyrico header file 
-```#include "tyrico.h"```
+1. Include the Tyrico header file 
+
+```clike
+#include "tyrico.h"
+```
 
 2. Define your data queue library, input queue name, and output queue name
-```
-#define DTAQ_IN  "INPUT     "         // Data queue name
-#define DTAQ_OUT "OUTPUT    "       // Data queue name
+
+```clike
+#define DTAQ_IN  "INPUT     "    // Data queue name
+#define DTAQ_OUT "OUTPUT    "    // Data queue name
 #define DTAQ_LIB "MYLIB     "    // Data queue library
 ```
 
-3. Use the imported read and write data queue functions. Message is the message to be run through your 
-python model and key will store the key that your data will be stored with in your output data queue.
-```
-    Key key;
-    int res = writeDataQueue(DTAQ_IN, DTAQ_LIB, message, &key);
+3. Use the imported read and write data queue functions. `message` is the message to be sent to your 
+python receiver hosting your AI model. `key` will store the key that your returned output data will be stored with 
+in your keyed output data queue.
+
+```clike
+Key key;
+int res = writeDataQueue(DTAQ_IN, DTAQ_LIB, message, &key);
 ```
 
-Then to retrieve the output value, use the readDataQueue function with your returned key. Output will
-store your return value.
-```
-    Varchar1000 output;
-    int result = readDataQueue(DTAQ_OUT, DTAQ_LIB, key.data, &output);
+Then to retrieve the output value, use the readDataQueue function with your returned key. `output` will
+store your return value. Like `Key`, `Varchar1000` is a custom type that is imported from `tyrico.h`.
+
+```clike
+Varchar1000 output;
+int result = readDataQueue(DTAQ_OUT, DTAQ_LIB, key.data, &output);
 ```
 
 4. Here's a full sample application
-```
+
+```clike
 #include <string>
 #include "../libs/tyrico.h"
 
-#define DTAQ_IN  "D16       "         // Data queue name
-#define DTAQ_OUT "D18KEYED  "       // Data queue name
+#define DTAQ_IN  "D16       "    // Data queue name
+#define DTAQ_OUT "D18KEYED  "    // Data queue name
 #define DTAQ_LIB "JONATHAN  "    // Data queue library
 
 using namespace std;
@@ -99,4 +107,16 @@ int main() {
     
     return 0;
 }
+```
+
+5. Here is some output from the sample application. The model has classified each iris flower from the flowers
+array as 0, 1, or 2 corresponding to different iris flower species.
+
+```
+Received message key 17418970560001408, value 2
+Received message key 17418970560001409, value 0
+Received message key 17418970560001410, value 2
+Received message key 17418970560001411, value 1
+Received message key 17418970560001412, value 1
+Received message key 17418970560001413, value 2
 ```

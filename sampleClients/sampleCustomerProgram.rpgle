@@ -27,8 +27,6 @@ dcl-s res char(256);
 dcl-s returned_key char(18);
 dcl-s output varchar(1000);
 
-
-
 dcl-s flowers char(256) dim(28);
 flowers(1) = '[7.47,2.47,5.34,2.34]';
 flowers(2) = '[5.12,2.28,6.81,0.39]';
@@ -58,9 +56,6 @@ flowers(25) = '[6.10,2.44,5.30,0.19]';
 flowers(26) = '[7.13,4.25,5.67,0.74]';
 flowers(27) = '[6.80,2.37,5.09,0.37]';
 flowers(28) = '[7.76,2.48,2.66,0.63]';
-
-
-
 
 for i = 1 to num_messages;
     message = flowers(%REM(i:data_length) + 1);
