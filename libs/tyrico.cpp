@@ -10,6 +10,8 @@
 
 #define COUNTER_LENGTH 7 // Number of bytes in counter
 #define KEY_SIZE 17 // Length of the key
+#define DTAQ_BUF_SIZE 10 // Standard buffer size for strings to be passed into the qsnddtaq 
+                         // and qrcvdtaq apis
 
 using namespace std;
 
@@ -27,6 +29,11 @@ void time_to_string(time_t value, char* buffer, std::size_t buf_size) {
         snprintf(buffer, (std::size_t)buf_size, "%ld", value);
 }
 
+void copyToSpacePaddedBuffer(char* dst, char* src, std::size_t buf_size){
+    for (int i = 0; i < buf_size && src[i] != '\0'; i++) {
+        dst[i] = src[i];
+    }
+}
 // Generate a unique key, and copy it into key_buffer
 void getKey(char* key_buffer, std::size_t buf_size) {
     // Reset the counter every second
@@ -59,6 +66,18 @@ void getKey(char* key_buffer, std::size_t buf_size) {
 // Read a record from the data queue and write the result into the output buffer. Return 0 if successful
 // and -1 if the output buffer passed in was not big enough.
 extern "C" int readDataQueue(char* dtaq_name, char* dtaq_lib, char* key, Varchar1000 *output){
+
+    // These buffers need to be exactly size 10 for QSNDDTAQ api
+    char dtaq_name_buf[DTAQ_BUF_SIZE];
+    char dtaq_lib_buf[DTAQ_BUF_SIZE];
+
+    // The trailing characters need to be spaces
+    memset(dtaq_name_buf, ' ', DTAQ_BUF_SIZE);
+    memset(dtaq_lib_buf, ' ', DTAQ_BUF_SIZE);
+
+    copyToSpacePaddedBuffer(dtaq_name_buf, dtaq_name, DTAQ_BUF_SIZE);
+    copyToSpacePaddedBuffer(dtaq_lib_buf, dtaq_lib, DTAQ_BUF_SIZE);
+
     char _out[1024];
     memset(_out, '\0', 1024);
     decimal(5,0) returned_len = 0;
@@ -70,9 +89,9 @@ extern "C" int readDataQueue(char* dtaq_name, char* dtaq_lib, char* key, Varchar
 
     QRCVDTAQ(
       // 1 	Data queue name 	Input 	Char(10)
-      dtaq_name,
+      dtaq_name_buf,
       // 2 	Library name 	Input 	Char(10)
-      dtaq_lib,
+      dtaq_lib_buf,
       // 3 	Length of data 	Output 	Packed(5,0)
       &returned_len, 
       // 4 	Data 	Output 	Char(*)
@@ -112,14 +131,25 @@ int writeDataQueueInternal(char* dtaq_name, char* dtaq_lib, char* message){
         printf("Sending message %s\n", message);
 
         errno = 0; // Reset errno before calling the API
-
         QSNDDTAQ(dtaq_name, dtaq_lib, len, (void *)message);
         return errno;
 }
 
+
 // Writes a message to dtaq_name. Sets returned_key to the generated key if the write was successful. 
 // Return 0 if successful, otherwise return the error set by QSNDDTAQ.
 extern "C" int writeDataQueue(char* dtaq_name, char* dtaq_lib, char* value, Key* returned_key){
+    // These buffers need to be exactly size 10 for QSNDDTAQ api
+    char dtaq_name_buf[DTAQ_BUF_SIZE];
+    char dtaq_lib_buf[DTAQ_BUF_SIZE];
+
+    // The trailing characters need to be spaces
+    memset(dtaq_name_buf, ' ', DTAQ_BUF_SIZE);
+    memset(dtaq_lib_buf, ' ', DTAQ_BUF_SIZE);
+
+    copyToSpacePaddedBuffer(dtaq_name_buf, dtaq_name, DTAQ_BUF_SIZE);
+    copyToSpacePaddedBuffer(dtaq_lib_buf, dtaq_lib, DTAQ_BUF_SIZE);
+
     char key_buffer[KEY_SIZE + 1];
     getKey(key_buffer, KEY_SIZE + 1);
     std::size_t message_length = KEY_SIZE + 1 + strlen(value) + 1; // +1 for null terminator
@@ -127,7 +157,7 @@ extern "C" int writeDataQueue(char* dtaq_name, char* dtaq_lib, char* value, Key*
 
     // Create the message
     snprintf(message, sizeof(message), "%s%s", key_buffer, value);
-    int error = writeDataQueueInternal(dtaq_name, dtaq_lib, message);
+    int error = writeDataQueueInternal(dtaq_name_buf, dtaq_lib_buf, message);
     if (error != 0){
         printf("Failed to send message to %s\n",
             message);
