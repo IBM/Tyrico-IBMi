@@ -25,7 +25,7 @@ String output = TyricoLib.readDataQueue(key);
 
 4. Here's a full sample application
 
-```
+```java
 package com.tyrico;
 import com.tyrico.TyricoLib;
 public class SampleCustomerProgram {
