@@ -1,7 +1,8 @@
 package com.tyrico;
 
-import com.ibm.as400.access.AS400;
-import com.ibm.as400.access.DataQueueEntry;
+import com.ibm.as400.access.*;
+
+import java.io.IOException;
 
 public class NonKeyedDataQueue extends DataQueue{
     com.ibm.as400.access.DataQueue dataQueue;
@@ -13,18 +14,32 @@ public class NonKeyedDataQueue extends DataQueue{
         String queuePath = "/QSYS.LIB/" + ibMiConfig.getLibraryName() + ".LIB/"
                 + ibMiConfig.getInQueueName() + ".DTAQ";
         dataQueue = new com.ibm.as400.access.DataQueue(system, queuePath);
+        dataQueueName = ibMiConfig.getInQueueName();
     }
+
     public String readDataQueue() throws Exception{
             // Read a message from the data queue (wait indefinitely)
             DataQueueEntry entry = dataQueue.read(INDEFINITE_WAIT);
             if (entry != null) {
                 String message = entry.getString();
-                System.out.println("Received message: " + message);
+                if (envLoader.isDebug()){
+                    System.out.println("Received message: " + message + "from " + dataQueueName);
+                }
                 return message;
             } else {
-                System.out.println("No message received.");
+                if (envLoader.isDebug()){
+                    // Don't think this should ever print since we wait indefinitely
+                    System.out.println("No message received " + "from " + dataQueueName);
+                }
                 return "";
             }
+    }
+
+    public void writeDataQueue(String message) throws AS400SecurityException, IllegalObjectTypeException, ObjectDoesNotExistException, IOException, InterruptedException, ErrorCompletingRequestException {
+        dataQueue.write(message);
+        if (envLoader.isDebug()){
+            System.out.println("Wrote message: " + message + "to " + dataQueueName);
+        }
     }
 
     private DataQueueRecord extractValuesFromDataQueueRecord(String record) {

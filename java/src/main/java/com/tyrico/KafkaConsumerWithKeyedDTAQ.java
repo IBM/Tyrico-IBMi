@@ -8,6 +8,7 @@ import java.time.Duration;
 import java.util.Collections;
 
 public class KafkaConsumerWithKeyedDTAQ implements Runnable {
+    EnvLoader envLoader;
     KeyedDataQueue outputKeyedDataQueue;
     KafkaConsumer<String, String> consumer;
 
@@ -17,6 +18,9 @@ public class KafkaConsumerWithKeyedDTAQ implements Runnable {
                 // Reading from Kafka is blocking so sleep is not needed here
                 ConsumerRecords<String, String> records = readKafkaRecords();
                 for (ConsumerRecord<String, String> record : records) {
+                    if (envLoader.isDebug()){
+                        System.out.println("Consumed kafka record: " + record.key() + " " + record.value());
+                    }
                     outputKeyedDataQueue.writeDataQueue(record.key(), record.value());
                 }
             } catch (Exception e) {
@@ -26,6 +30,7 @@ public class KafkaConsumerWithKeyedDTAQ implements Runnable {
     }
 
     public KafkaConsumerWithKeyedDTAQ() {
+        envLoader = new EnvLoader();
         outputKeyedDataQueue = new KeyedDataQueue();
         KafkaConsumerConfig kafkaConsumerConfig = new KafkaConsumerConfig();
 

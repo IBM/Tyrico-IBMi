@@ -6,7 +6,9 @@ public class EnvLoader {
     private static Dotenv dotenv;
 
     EnvLoader(){
-        dotenv = Dotenv.load();
+        if (dotenv == null){
+            dotenv = Dotenv.load();
+        }
     }
 
     public String getEnvironmentVariable(String variable) throws RuntimeException{
@@ -15,5 +17,9 @@ public class EnvLoader {
             throw new RuntimeException("Environment variable " + variable + " not found");
         }
         return value;
+    }
+
+    boolean isDebug(){
+        return getEnvironmentVariable("debug").equals("true");
     }
 }

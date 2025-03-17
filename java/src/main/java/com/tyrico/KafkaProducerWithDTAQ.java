@@ -33,7 +33,7 @@ public class KafkaProducerWithDTAQ implements Runnable {
     void writeKafkaRecord(DataQueueRecord dataQueueRecord) {
         String key = dataQueueRecord.getKey();
         String value = dataQueueRecord.getValue();
-        System.out.printf("Producing message: Key = %s, Value = %s\n", key, value);
+        System.out.printf("Producing kafka record: Key = %s, Value = %s\n", key, value);
         ProducerRecord<String, String> record = new ProducerRecord<>(kafkaProducerConfig.getTopic(), key, value);
 
         // Send the message asynchronously
