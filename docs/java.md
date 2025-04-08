@@ -1,4 +1,4 @@
-## How to integrate Tyrico with a cpp or c application
+## How to integrate Tyrico with a Java application
 
 1. Include the TyricoLib java package
 
