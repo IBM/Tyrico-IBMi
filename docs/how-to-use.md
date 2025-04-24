@@ -16,6 +16,7 @@ In order to integrate Tyrico with your IBM i application, you need to write the 
 your write data queue, and you will read the results from your keyed read data queue. You must use the same names as specified in
 your `.env` as `inQueueName` and `outQueueNameKeyed`. 
 
+For more information on how to integrate Tyrico with a Java application check out the [Java example](./java.md)\
 For more information on how to integrate Tyrico with a c or cpp application check out the [CPP example](./cpp.md)\
 For more information on how to integrate Tyrico with an RPG application check out the [RPG example](./rpg.md)
 
