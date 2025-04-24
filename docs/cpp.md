@@ -1,6 +1,6 @@
 ## How to integrate Tyrico with a cpp or c application
 
-1. Include the Tyrico header file 
+1. Include the Tyrico header file from the `libs` directory. Also make sure to copy the file into your project folder.
 
 ```clike
 #include "tyrico.h"

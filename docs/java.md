@@ -1,18 +1,59 @@
 ## How to integrate Tyrico with a Java application
 
-1. Include the TyricoLib java package
+1. Include the TyricoLib dependency in your pom.xml. Note: While this package isn't yet published to maven, please first install the TyricoLib with the [Install Instructions](./installLib.md).
+
+```
+<dependency>
+    <groupId>com.tyrico</groupId>
+    <artifactId>tyrico-lib</artifactId>
+    <version>1.0-SNAPSHOT</version>
+</dependency>
+```
+
+2. Include the TyricoLib java package
 
 ```java
 import com.tyrico.TyricoLib;
 ```
 
-2. Create a .env file in your current directory defining your input and keyed output data queue. You will also need to define a variable debug, which if set to `true`, the application will print debug messages.
+3. Create a .env file in your current directory with the same variables as defined in the `.env.sample`. 
 
 ```bash
-libraryName=...
-outQueueNameKeyed=...
-inQueueName=...
-debug=<true or false>
+# The hostname of the system containing your DTAQ's
+systemName=
+
+# Username for the specified system
+userName=
+
+# Password for the specified system
+password=
+
+# The library your DTAQ's reside in
+libraryName=
+
+# The name of the keyed DTAQ which your results will be written to
+outQueueNameKeyed=
+
+# The name of the DTAQ (non-keyed) which your data to be inferenced will be written to
+inQueueName=
+
+# The kafka topic to send your data to be inferenced to
+sendTopic=
+
+# The kafka topic to receive your inferenced results from
+receiveTopic=
+
+# The id of the kafka consumer group
+consumerGroupId= 
+
+# The hostname of the system running kafka
+kafkaHostname=
+
+# The port on which kafka is running
+kafkaPort=
+
+# If true, the tyrico client will print debug messages
+debug=
 ```
 
 3. Use the imported read and write data queue functions. `message` is the message to be sent to your 

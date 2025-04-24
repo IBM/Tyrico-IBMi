@@ -1,6 +1,7 @@
 - [Why Tyrico](why-tyrico)
 - [Architecture](architecture)
 - [How To Use](how-to-use)
+- [Installing the client lib](./installLib.md)
 - [JAVA example](java)
 - [RPG example](rpg)
 - [CPP example](cpp)
