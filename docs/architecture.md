@@ -1,1 +1,1 @@
-![Tyrico Architecture](./images/tyrico-architecture.png)
+![Tyrico Architecture](./images/tyrico-architecture2.png)
